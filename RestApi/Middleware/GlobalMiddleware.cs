@@ -1,3 +1,6 @@
+using System.Text;
+using System.Text.Json;
+
 public class GlobalMiddleware
 {
 
@@ -27,6 +30,38 @@ public class GlobalMiddleware
             await context.Response.WriteAsync("Access forbidden: Only Android and iOS users are allowed.");
         }
         */
+        /*
+        foreach (var key in context.Request.Form.Keys)
+        {
+            var value = context.Request.Form[key];
+            Console.WriteLine($"Key: {key}, Value: {value}");
+        }
+        */
+        if (context.Request.ContentType != null && context.Request.ContentType.Contains("application/json"))
+        {
+            context.Request.EnableBuffering();
+            using (var reader = new StreamReader(context.Request.Body, Encoding.UTF8, leaveOpen: true))
+            {
+                var body = await reader.ReadToEndAsync();
+                context.Request.Body.Position = 0;
+
+                if (!string.IsNullOrWhiteSpace(body))
+                {
+                    try
+                    {
+                        var jsonObject = JsonSerializer.Deserialize<Dictionary<string, object>>(body);
+                        foreach (var kvp in jsonObject)
+                        {
+                            Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
+                        }
+                    }
+                    catch (JsonException ex)
+                    {
+                        Console.WriteLine($"Invalid JSON: {ex.Message}");
+                    }
+                }
+            }
+        }
         await _next(context);
     }
 
