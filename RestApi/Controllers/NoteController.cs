@@ -9,7 +9,6 @@ namespace RestApi.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    
     public class NoteController : ControllerBase
     {
         private readonly ApplicationDbContext _context;

@@ -24,8 +24,7 @@ public class ErrorHandlerMiddleware
         {
             var response = context.Response;
             response.ContentType = "application/json";
-            
-            await response.WriteAsync("");
+            await response.WriteAsync(error.Message);
         }
     }
 }

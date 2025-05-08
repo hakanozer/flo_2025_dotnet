@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RestApi.Data;
 using RestApi.Models;
+using RestApi.Models.Dto;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -34,8 +35,17 @@ namespace RestApi.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(User user)
-        {
+        public IActionResult Login(UserLoginDto userDto)
+        {   
+            if (ModelState.IsValid == false)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = new User
+            {
+                Username = userDto.Username,
+                Password = userDto.Password
+            };
             PasswordManager passwordManager = new PasswordManager();
             string newPass = passwordManager.Encrypt(user.Password);
             Console.WriteLine("Encrypted Password: " + newPass);
