@@ -36,7 +36,7 @@ namespace RestApi.Controllers
 
         [HttpPost("login")]
         public IActionResult Login(UserLoginDto userDto)
-        {   
+        {
             if (ModelState.IsValid == false)
             {
                 return BadRequest(ModelState);
@@ -48,7 +48,7 @@ namespace RestApi.Controllers
             };
             // Encrypt the password
             string passwordHash1 = BCrypt.Net.BCrypt.HashPassword(user.Password);
-            Console.WriteLine("Hashed Password: " + passwordHash1); 
+            Console.WriteLine("Hashed Password: " + passwordHash1);
 
             PasswordManager passwordManager = new PasswordManager();
             string newPass = passwordManager.Encrypt(user.Password);
@@ -75,8 +75,10 @@ namespace RestApi.Controllers
                 return NotFound("User not found");
             }
 
+            // Generate JWT token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("aP3rF3ctlyS3cur3K3yF0rJWTt0k3n!aP3rF3ctlyS3cur3K3yF0rJWTt0k3n!");
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -86,10 +88,25 @@ namespace RestApi.Controllers
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+            if (tokenDescriptor != null)
+            {
+                ParseRole(existingUser.Role, tokenDescriptor);
+            }
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
             return Ok(new { Token = tokenString });
         }
+
+        private void ParseRole(string roles, SecurityTokenDescriptor tokenDescriptor)
+        {
+            var roleList = roles.Split(',').Select(r => r.Trim()).ToList();
+            foreach (var role in roleList)
+            {
+                tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
+        }
+
     }
 }

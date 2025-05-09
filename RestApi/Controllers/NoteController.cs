@@ -8,7 +8,7 @@ namespace RestApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Note")]
     public class NoteController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -19,7 +19,6 @@ namespace RestApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult Create(Note note)
         {
             _context.Notes.Add(note);

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestApi.Data;
 using RestApi.Models;
@@ -7,6 +8,7 @@ namespace RestApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Product")]
     public class ProductController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
