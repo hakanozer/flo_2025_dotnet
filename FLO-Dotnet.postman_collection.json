@@ -1,0 +1,232 @@
+{
+	"info": {
+		"_postman_id": "ee1a2ab1-de37-4ea2-9cc4-d1028f8fff2b",
+		"name": "FLO-Dotnet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1939021"
+	},
+	"item": [
+		{
+			"name": "User Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Username\": \"ali@mail.com\",\n    \"Password\": \"12345\",\n    \"City\": \"ankara\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5120/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5120",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Username\": \"ali@mail.com\",\n    \"Password\": \"12345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5120/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5120",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5120/api/product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5120",
+					"path": [
+						"api",
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product Add",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"iPad\",\n    \"Price\": 45000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5120/api/product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5120",
+					"path": [
+						"api",
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"TV\",\n    \"Price\": 13000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5120/api/product/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5120",
+					"path": [
+						"api",
+						"product",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Note",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFsaUBtYWlsLmNvbSIsIm5iZiI6MTc0MTc3MTA4MiwiZXhwIjoxNzQxNzc0NjgyLCJpYXQiOjE3NDE3NzEwODJ9.LIKKhrWAEQY6b80S5YXVTtWYvU_DrYHPI4ez0KiMibQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Content\": \"Hasan Toplantı Note\",\n    \"User\": {\n        \"Username\": \"ali@mail.com\",\n        \"Password\": \"12345\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5120/api/note/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5120",
+					"path": [
+						"api",
+						"note",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Note List",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFsaUBtYWlsLmNvbSIsIm5iZiI6MTc0NjcwMjI3NiwiZXhwIjoxNzQ2NzA1ODc2LCJpYXQiOjE3NDY3MDIyNzZ9.QxIxUlmhaTrWBNthoYepYVA_ZSKCaxVNUKIIq1RHfpQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5120/api/note/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5120",
+					"path": [
+						"api",
+						"note",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
