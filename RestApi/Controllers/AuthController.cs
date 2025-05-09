@@ -46,6 +46,10 @@ namespace RestApi.Controllers
                 Username = userDto.Username,
                 Password = userDto.Password
             };
+            // Encrypt the password
+            string passwordHash1 = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            Console.WriteLine("Hashed Password: " + passwordHash1); 
+
             PasswordManager passwordManager = new PasswordManager();
             string newPass = passwordManager.Encrypt(user.Password);
             Console.WriteLine("Encrypted Password: " + newPass);
@@ -53,10 +57,22 @@ namespace RestApi.Controllers
             string decryptedPass = passwordManager.Decrypt(newPass);
             Console.WriteLine("Decrypted Password: " + decryptedPass);
 
-            var existingUser = _context.Users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
-            if (existingUser == null)
+            var existingUser = _context.Users.FirstOrDefault(u => u.Username == user.Username);
+            if (existingUser != null)
             {
-                return Unauthorized();
+                // Check if the password is correct
+                if (BCrypt.Net.BCrypt.Verify(user.Password, existingUser.Password))
+                {
+                    Console.WriteLine("Password is correct");
+                }
+                else
+                {
+                    return Unauthorized("Invalid password");
+                }
+            }
+            else
+            {
+                return NotFound("User not found");
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
