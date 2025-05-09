@@ -16,11 +16,14 @@ namespace RestApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(ApplicationDbContext context)
+        public AuthController(ApplicationDbContext context, IConfiguration configuration)
         {
+            _configuration = configuration;
             _context = context;
         }
+        
 
         [HttpPost("register")]
         public IActionResult Register(User user)
@@ -77,7 +80,8 @@ namespace RestApi.Controllers
 
             // Generate JWT token
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("aP3rF3ctlyS3cur3K3yF0rJWTt0k3n!aP3rF3ctlyS3cur3K3yF0rJWTt0k3n!");
+            var JwtKey = _configuration.GetValue<string>("Jwt:Key") ?? "";
+            var key = Encoding.ASCII.GetBytes(JwtKey);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

@@ -7,6 +7,7 @@ public class ErrorHandlerMiddleware
     }
     public async Task Invoke(HttpContext context)
     {
+        
         var ip = context.Connection.RemoteIpAddress.ToString();
         //var sessionId = context.Session.Id;
         var headers = context.Request.Headers;
